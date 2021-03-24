@@ -35,6 +35,12 @@ factory.doStart()
 
 reads.add(skt)
 
+
+def _doReadOrWrite(self, selectable, method):
+    why = getattr(selectable, method)()
+    if why:
+        self._disconnectSelectable(selectable, why, method == "doRead")
+
 # self.startRunning()
 
 # self.mainLoop()
@@ -49,3 +55,9 @@ while 1:
     # timeout = self.running and t2
     # self.doSelect(t)
     r, w, ignored = select.select(reads, writes,[])
+
+    _drdw = _doReadOrWrite
+
+    for r in reads:
+        # 调用_doReadOrWrite方法
+        log.callWithLogger(r, _drdw, r, doRead)

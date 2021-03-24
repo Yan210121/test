@@ -1,18 +1,16 @@
 #coding:utf-8
-from ts.internet import protocol,factory
-from ts.internet.reactor import reactor
+from twisted.internet import protocol, reactor
 
-
-class EchoProtocol(protocol.Protocol):
+class Echo(protocol.Protocol):
     def dataReceived(self, data):
-        # As soon as any data is received, write it back
+    # 一旦有数据到来就返回一个回应
+        print(data)
         self.transport.write(data)
 
-class EchoFactory(factory.Factory):
-    name = 'echo'
+class EchoFactory(protocol.Factory):
     def buildProtocol(self, addr):
-        return EchoProtocol()
+        print("EchoFactory buildProtocol")
+        return Echo()
 
-#reactor global variable
-# reactor.listenTCP(9000, EchoFactory())
-# reactor.run()
+reactor.listenTCP(8000, EchoFactory())
+reactor.run()
