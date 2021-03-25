@@ -1415,6 +1415,8 @@ class Port(base.BasePort, _SocketCloser):
                                   _reservedFD)
                 print("clients:", clients)
                 for accepted, (skt, addr) in enumerate(clients, 1):
+                    #客户端的skt
+                    print("skt,",skt)
                     fdesc._setCloseOnExec(skt.fileno())
                     print("addr:",addr,len(addr))
                     if len(addr) == 4:
@@ -1433,6 +1435,7 @@ class Port(base.BasePort, _SocketCloser):
                         continue
                     s = self.sessionno
                     self.sessionno = s + 1
+                    #self.factory = EchoFactory()
                     transport = self.transport(
                         skt, protocol, addr, self, s, self.reactor)
                     print("protocol makeConnection")

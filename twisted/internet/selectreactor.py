@@ -140,7 +140,6 @@ class SelectReactor(posixbase.PosixReactorBase, _extraBase):
                 if selectable not in fdset:
                     continue
                 # This for pausing input when we're not ready for more.
-                print("start _logrun")
                 _logrun(selectable, _drdw, selectable, method)
 
 
